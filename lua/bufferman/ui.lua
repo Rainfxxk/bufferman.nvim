@@ -29,7 +29,7 @@ function M.create_float_window(opts)
     local border = config.border
     if (opts == nil) then
         opts = {
-            title = "buffer",
+            title = "bufferman",
             title_pos = "center",
             relative = 'editor',
             width = w,
@@ -57,6 +57,9 @@ function M.create_float_window(opts)
     end, {buffer = buf})
 
     vim.keymap.set("n", "q", function()
+        M.close_float_window()
+    end, {buffer = buf})
+    vim.keymap.set("n", "<ESC>", function()
         M.close_float_window()
     end, {buffer = buf})
 
@@ -121,6 +124,14 @@ function M.fill_buffers()
     end
 end
 
+function M.set_cursor_to_current_buf(cur_buf_id)
+    for i, buf_info in ipairs(bl.list) do
+        if cur_buf_id == buf_info.id then
+            vim.api.nvim_win_set_cursor(0, {i, 0})
+        end
+    end
+end
+
 function M.check_buffers(lines)
     local buf_ids = {}
     for _, line in ipairs(lines) do
@@ -148,8 +159,10 @@ function M.bufferlist_toggle()
     if (M.buf ~= nil and M.win ~= nil) then
         M.close_float_window()
     else
+        local cur_buf_id = vim.api.nvim_get_current_buf()
         M.create_float_window()
         M.fill_buffers()
+        M.set_cursor_to_current_buf(cur_buf_id)
     end
 end
 

@@ -3,7 +3,8 @@ local M = {}
 M.list = {}
 
 function M.is_buffer_valid(buf_id, buf_name)
-    return 1 == vim.fn.buflisted(buf_id) and buf_name ~= ""
+    -- return 1 == vim.fn.buflisted(buf_id) and buf_name ~= ""
+    return 1 == vim.fn.buflisted(buf_id)
 end
 
 local function get_buf_basename(list)
