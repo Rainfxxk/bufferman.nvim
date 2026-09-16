@@ -13,7 +13,7 @@ function M.create_float_window(opts)
     local screen_w = vim.o.columns
     local width = config.width or 0.6
     local height = config.height or 0.6
-    local w, h
+    local w, h, x, y
     if (width > 1) then
         w = width
     else
@@ -24,8 +24,8 @@ function M.create_float_window(opts)
     else
         h = math.floor(screen_h * height)
     end
-    local x = math.floor((screen_w - w) / 2)
-    local y = math.floor((screen_h - h) / 2)
+    x = math.floor((screen_w - w) / 2)
+    y = math.floor((screen_h - h) / 2)
     local border = config.border
     if (opts == nil) then
         opts = {

@@ -9,6 +9,10 @@ end
 
 local function get_buf_basename(list)
     for i, buf_info in ipairs(list) do
+        if vim.fs.basename(buf_info.name) == '' then
+            buf_info.basename = "[No Name]"
+            goto continue
+        end
         if not buf_info.basename then
             buf_info.basename = vim.fs.basename(buf_info.name)
         end
@@ -32,6 +36,7 @@ local function get_buf_basename(list)
             local parent = vim.fs.basename(vim.fs.dirname(buf_info.name))
             buf_info.basename = vim.fs.joinpath(parent, buf_info.basename)
         end
+        ::continue::
     end
 
     return list
